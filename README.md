@@ -29,7 +29,8 @@ Human interaction recognition (HIR) is a significant challenge in computer visio
     <img src="img/Proxemics-Net.png" alt="Our Proxemics-Net model" width="700">
 </p>
 <p align="center">
-    <sub><strong>Figure 2: Our Proxemics-Net model.</strong> It consists of the individual branches of each person ('p0_branch' and 'p1_branch') (blue) and the 'pair branch' (red) as input. All branches consist of the same type of backbone (ConvNeXt or ViT). The outputs of these 3 branches are merged in a concatenation layer and passed through a fully connected layer that predicts the proxemic classes of the input samples.</sub>
+    <sub><strong>Figure 2: Our Proxemics-Net++ model.</strong>  It consists of six inputs: three branches for the RGB information of the couple and the individuals that compose it (blue branches) and another three branches for the body pose representation of the two individuals and the couple (green branches).
+        All branches have the same type of backbone (Base or Large). The outputs of these six branches are passed to a Fusion Block, which can be of two types: Concatenation fusion or CrossAttention fusion. Finally, the type of human interaction (proxemics or social relationship) of the input samples is predicted.</sub>
 </p>
 
 
