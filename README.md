@@ -43,13 +43,12 @@ Human interaction recognition (HIR) is a significant challenge in computer visio
    | [Yang et al.](https://doi.org/10.1109/CVPR.2012.6248095)                       | 37     | 29     | 50     | 61     | 38     | 34     | 42           | 38           |
    | [Chu et al.](https://doi.org/10.1109/ICCV.2015.383)                                | 41.2   | 35.4   | 62.2   | -      | 43.9   | 55     | -            | 46.6         |
    | [Jiang et al.](https://doi.org/10.1109/CVPR.2017.366)                               | 59.7   | 52     | 53.9   | 33.2   | 36.1   | 36.2   | 45.2         | 47.5         |
-   | *Li W. et al.~\cite{liW2020}*                               | 56.7   | 55.1   | 52.8   | 78.4   | 65.0   | 65.5   | 62.3         | 59.1         |
-   | *Sousa et al.~\cite{Sousa2023}*                             | 66.2   | 55.1   | 69.5   | 78.8   | 65.6   | 68.1   | 67.2         | 64.9         |
-   | Jiménez et al.~\cite{jimenezVelasco2023}                    | 62.4   | 56.7   | 62.4   | **86.4**| 68.8  | 67.9   | 67.4         | 63.8         |
-   | **Our ConvNeXt_Base (CrossAttention)**                               | **71.5**| **63.2**| **80.5**| 80.7  | **75.6**| **71.3**| **73.8**    | **72.4**     |
+   | [Li W. et al](https://link.springer.com/chapter/10.1007/978-3-030-58555-6_2)                              | 56.7   | 55.1   | 52.8   | 78.4   | 65.0   | 65.5   | 62.3         | 59.1         |
+   | [Sousa et al](https://doi.org/10.1016/j.cviu.2023.103785)                            | 66.2   | 55.1   | 69.5   | 78.8   | 65.6   | 68.1   | 67.2         | 64.9         |
+   | [Jiménez et al.](https://doi.org/10.1007/978-3-031-36616-1_32)                   | 62.4   | 56.7   | 62.4   | **86.4**| 68.8  | 67.9   | 67.4         | 63.8         |
+   | **Our ConvNeXt_Base (CrossAttention) - (RGB+Pose - Full Model)**                               | **71.5**| **63.2**| **80.5**| 80.7  | **75.6**| **71.3**| **73.8**    | **72.4**     |
 
 </div>
-
 
 <p align="center">
 <sub><strong>Table 1:</strong> Comparison of our best model obtained on the Proxemics dataset with the state of the art</sub>
@@ -58,9 +57,7 @@ Human interaction recognition (HIR) is a significant challenge in computer visio
 
 In this Table, two values of %mAP are compared: mAP(a) is the value of mAP explained in the previous sections (the mean of the AP values of the six types of proxemics) and mAP(b) is the mean of the AP values but excluding the Hand-Torso (HT) class as done in Chu et al.
 
-Looking at the table, we can see that our three proposed models (which use three branches as input) perform the best in both comparatives (mAP(a-b)), with the model that uses the ConvNeXt network as a backbone achieving the highest %mAP value (67.4% vs 47.5% mAP(a) and 63.8% vs 47.5% mAP(b)). Thus, we outperformed the existing state of the art by a significant margin, with improvements of up to 19.9% of %AP (mAP(a)) and 16.3% of %mAP (mAP(b)).
-
-Therefore, these results demonstrate that the two state-of-the-art deep learning models (ConvNeXt and Vision Transformers) do help in the proxemics recognition problem since, using only RGB information, they can considerably improve the results obtained by all competing models.
+The comparison shows that our best model (RGB+Pose with individual and pair branches, Base variant, and CrossAttention Fusion Block) achieves the highest %mAP results across almost all proxemics types, outperforming existing methods with significant improvements of 6.4% (mAP(a)) and 7.5% (mAP(b)). These results show that our combination of RGB and pose data, alongside a deep learning model like ConvNeXt, significantly enhances performance for proxemics recognition.
 
 &nbsp;
 
