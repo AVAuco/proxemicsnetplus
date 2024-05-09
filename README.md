@@ -1,11 +1,10 @@
-# proxemicsnetplus
 
 # Proxemics-net++: classification of human interactions in still images
 
 
 <div align="center">
 
-   :page_facing_up: [Paper]([https://link.springer.com/chapter/10.1007/978-3-031-36616-1_32]) &nbsp; | &nbsp; <img src="https://camo.githubusercontent.com/0b93f22ac70b7983e9915edf30ddc1a15713b2c310a214c2996dff49b410b949/68747470733a2f2f63646e2e646973636f72646170702e636f6d2f6174746163686d656e74732f3236373335363138303036343530313736302f3738313937313935303438363239303433322f476f6f676c655f436f6c61626f7261746f72792e737667" alt="Demo" width="24px" height="24px"/> [Demo](https://colab.research.google.com/drive/1ueD8UFvWvFYK-MFL-GO3gteqIAXaM2LT?usp=sharing)  
+   :page_facing_up: [Paper](https://link.springer.com/chapter/10.1007/978-3-031-36616-1_32) &nbsp; | &nbsp; <img src="https://camo.githubusercontent.com/0b93f22ac70b7983e9915edf30ddc1a15713b2c310a214c2996dff49b410b949/68747470733a2f2f63646e2e646973636f72646170702e636f6d2f6174746163686d656e74732f3236373335363138303036343530313736302f3738313937313935303438363239303433322f476f6f676c655f436f6c61626f7261746f72792e737667" alt="Demo" width="24px" height="24px"/> [Demo](https://colab.research.google.com/drive/1ueD8UFvWvFYK-MFL-GO3gteqIAXaM2LT?usp=sharing)  
 
 </div>
 
@@ -17,7 +16,7 @@
     <img src="imgs/teaser.png" alt="Examples of human-human interactions." width="700">
 </p>
 <p align="center">
-    <sub><strong>Figure 1: Examples of human-human interactions.</strong> Could the reader indicate what kind of contact exists between the pairs in the examples in (a)? What kind of relationship exists between the people in (b)? These images illustrate the great complexity inherent in the problem of recognizing human interactions in images. The images in (a) highlight situations where it is confusing to determine the type of physical contact (hand-elbow, hand-shoulder, elbow-shoulder, etc.) due to clothing and partial occlusion. In (b), the images show ambiguity in determining the type of social relationship between individuals (family, friends, co-workers, etc.) without additional context.</sub>
+    <sub><strong>Figure 1: Examples of human-human interactions.</strong> These images illustrate the great complexity inherent in the problem of recognizing human interactions in images. The images in (a) highlight situations where it is confusing to determine the type of physical contact (hand-elbow, hand-shoulder, elbow-shoulder, etc.) due to clothing and partial occlusion. In (b), the images show ambiguity in determining the type of social relationship between individuals (family, friends, co-workers, etc.) without additional context.</sub>
 </p>
 
 &nbsp;
