@@ -4,7 +4,7 @@
 
 <div align="center">
 
-   :page_facing_up: [Paper](https://link.springer.com/chapter/10.1007/978-3-031-36616-1_32) &nbsp; | &nbsp; [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ueD8UFvWvFYK-MFL-GO3gteqIAXaM2LT?usp=sharing) 
+   :page_facing_up: [Paper](https://link.springer.com/article/10.1007/s10044-024-01270-3) &nbsp; | &nbsp; [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ueD8UFvWvFYK-MFL-GO3gteqIAXaM2LT?usp=sharing) 
 
 </div>
 
