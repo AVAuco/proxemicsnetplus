@@ -4,9 +4,11 @@
 
 <div align="center">
 
-   :page_facing_up: [Paper](https://link.springer.com/chapter/10.1007/978-3-031-36616-1_32) &nbsp; | &nbsp; <img src="https://camo.githubusercontent.com/0b93f22ac70b7983e9915edf30ddc1a15713b2c310a214c2996dff49b410b949/68747470733a2f2f63646e2e646973636f72646170702e636f6d2f6174746163686d656e74732f3236373335363138303036343530313736302f3738313937313935303438363239303433322f476f6f676c655f436f6c61626f7261746f72792e737667" alt="Demo" width="24px" height="24px"/> [Demo](https://colab.research.google.com/drive/1ueD8UFvWvFYK-MFL-GO3gteqIAXaM2LT?usp=sharing)  
+   :page_facing_up: [Paper](https://link.springer.com/chapter/10.1007/978-3-031-36616-1_32) &nbsp; | &nbsp; [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ueD8UFvWvFYK-MFL-GO3gteqIAXaM2LT?usp=sharing) 
 
 </div>
+
+
 
 
 &nbsp;
