@@ -35,22 +35,24 @@ Human interaction recognition (HIR) is a significant challenge in computer visio
 
 &nbsp;
 
-### :chart_with_upwards_trend: Comparison to the State of the Art
+### :chart_with_upwards_trend: Comparison to the State of the Art - Proxemics dataset
 <div align="center">
-  
-  | Model                        | HH   | HS   | SS   | HT   | HE   | ES   | mAP (a) | mAP (b) |
-  |------------------------------|------|------|------|------|------|------|---------|---------|
-  | [Yang et al.](https://doi.org/10.1109/CVPR.2012.6248095)                  | 37   | 29   | 50   | 61   | 38   | 34   | 42      | 38      |
-  | [Chu et al.](https://doi.org/10.1109/ICCV.2015.383)                  | 41.2 | 35.4 | 62.2 | -    | 43.9 | 55   | -       | 46.6    |
-  | [Jiang et al.](https://doi.org/10.1109/CVPR.2017.366)                 | 59.7 | 52   | 53.9 | 33.2 | 36.1 | 36.2 | 45.2    | 47.5    |
-  | Our ViT                      | 48.2 | 57.6 | 50.4 | 76.6 | 57.6 | 52.8 | 57.2    | 53.3    |
-  | Our ConvNeXt_Base            | 56.9 | **53.4** | 61.4 | 83.4 | 68.7 | 58.8 | 63.8    | 59.8    |
-  | Our ConvNeXt_Large           | **62.4** | 56.7 | **62.4** | **86.4** | **68.8** | **67.9** | **67.4**    | **63.8**    |
+   
+  | **Model**                                                   | **HH** | **HS** | **SS** | **HT** | **HE** | **ES** | **mAP (a)** | **mAP (b)** |
+   |------------------------------------------------------------|--------|--------|--------|--------|--------|--------|--------------|--------------|
+   | [Yang et al.](https://doi.org/10.1109/CVPR.2012.6248095)                       | 37     | 29     | 50     | 61     | 38     | 34     | 42           | 38           |
+   | [Chu et al.](https://doi.org/10.1109/ICCV.2015.383)                                | 41.2   | 35.4   | 62.2   | -      | 43.9   | 55     | -            | 46.6         |
+   | [Jiang et al.](https://doi.org/10.1109/CVPR.2017.366)                               | 59.7   | 52     | 53.9   | 33.2   | 36.1   | 36.2   | 45.2         | 47.5         |
+   | *Li W. et al.~\cite{liW2020}*                               | 56.7   | 55.1   | 52.8   | 78.4   | 65.0   | 65.5   | 62.3         | 59.1         |
+   | *Sousa et al.~\cite{Sousa2023}*                             | 66.2   | 55.1   | 69.5   | 78.8   | 65.6   | 68.1   | 67.2         | 64.9         |
+   | Jiménez et al.~\cite{jimenezVelasco2023}                    | 62.4   | 56.7   | 62.4   | **86.4**| 68.8  | 67.9   | 67.4         | 63.8         |
+   | **Our ConvNeXt_Base (CrossAttention)**                               | **71.5**| **63.2**| **80.5**| 80.7  | **75.6**| **71.3**| **73.8**    | **72.4**     |
+
 </div>
 
 
 <p align="center">
-<sub><strong>Table 1:</strong> Table compares our three best models concerning the existing state of the art.</sub>
+<sub><strong>Table 1:</strong> Comparison of our best model obtained on the Proxemics dataset with the state of the art</sub>
 </p>
 &nbsp;
 
