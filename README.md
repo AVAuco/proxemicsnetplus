@@ -137,12 +137,14 @@ Here are 2 of the Proxemics-Net models that we have trained.
 ## :memo: Citing Proxemics-Net
 If you find Proxemics-Net++ useful in your work, please consider citing the following BibTeX entry:
 ```bibtex
-@InProceedings{jimenezVelasco2023,
-   author = "Jiménez, I. and Muñoz, R. and Marín, M. J.",
-   title = "Proxemics-Net: Automatic Proxemics Recognition in Images",
-   booktitle = "Pattern Recogn. Image Anal.",
-   year = "2023",
-   pages = "402-413",
-   note= "IbPRIA 2023",
-   doi = "10.1007/978-3-031-36616-1_32"
+@article{Jimenez2024,
+  author    = {I. Jiménez-Velasco and J. Zafra-Palma and R. Muñoz-Salinas and others},
+  title     = {Proxemics-net++: classification of human interactions in still images},
+  journal   = {Pattern Analysis and Applications},
+  volume    = {27},
+  number    = {1},
+  pages     = {49},
+  year      = {2024},
+  doi       = {10.1007/s10044-024-01270-3}
 }
+
