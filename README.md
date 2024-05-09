@@ -14,10 +14,10 @@
 
 
 <p align="center">
-    <img src="img/proxemicsImg.png" alt="Touch codes in Proxemics" width="700">
+    <img src="imgs/teaser.png" alt="Examples of human-human interactions." width="700">
 </p>
 <p align="center">
-    <sub><strong>Figure 1: Touch codes in Proxemics.</strong> Images showing the six specific "touch codes" that were studied in this work.</sub>
+    <sub><strong>Figure 1: Examples of human-human interactions.</strong> Could the reader indicate what kind of contact exists between the pairs in the examples in (a)? What kind of relationship exists between the people in (b)? These images illustrate the great complexity inherent in the problem of recognizing human interactions in images. The images in (a) highlight situations where it is confusing to determine the type of physical contact (hand-elbow, hand-shoulder, elbow-shoulder, etc.) due to clothing and partial occlusion. In (b), the images show ambiguity in determining the type of social relationship between individuals (family, friends, co-workers, etc.) without additional context.</sub>
 </p>
 
 &nbsp;
@@ -26,7 +26,7 @@ Human interaction recognition (HIR) is a significant challenge in computer visio
 
 &nbsp;
 <p align="center">
-    <img src="img/Proxemics-Net.png" alt="Our Proxemics-Net model" width="700">
+    <img src="imgs/Proxemics-Net++.png" alt="Our Proxemics-Net++ model" width="700">
 </p>
 <p align="center">
     <sub><strong>Figure 2: Our Proxemics-Net++ model.</strong>  It consists of six inputs: three branches for the RGB information of the couple and the individuals that compose it (blue branches) and another three branches for the body pose representation of the two individuals and the couple (green branches).
