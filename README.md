@@ -102,8 +102,6 @@ Notably, most other methods rely on graph-based architectures, unlike ours, whic
 - `base_model_main/`: Main directory for the full model - RGB / Pose / RGB+Pose models.
 - `test/`: Directory containing code and resources related to model testing.
 - `train/`: Directory containing code and resources related to model training.
-- `dataset_proxemics.zip`: ZIP file containing the preprocessed Proxemics dataset - RGB and Pose.
-- `dataset_pisc.zip`: ZIP file containing the preprocessed PISC dataset - RGB and Pose.
 - `requirements_proxemicsNet.txt`: File specifying the necessary dependencies for the project.
 - `requirements_retinaFace_detectron_densepose.txt`: File specifying the necessary dependencies to obtain the pose maps of the images - Using RetinaFace and DensePose
 
@@ -122,9 +120,9 @@ Install the necessary dependencies to obtain the Pose maps from the images (in c
     conda create --name <env> --file requirements_retinaFace_detectron_densepose.txt
 
 
-###  :black_small_square: Unzipping the Preprocessed Datasets ZIP
+###  :black_small_square: Download and unzipping the Preprocessed Datasets ZIP
 
-To use the pre-processed datasets, you must first unzip the files. You can use the following command:
+To use the pre-processed datasets, you must first download and unzip the files. You can use the following command:
 
     unzip dataset_proxemics.zip 
     unzip dataset_pisc.zip 
