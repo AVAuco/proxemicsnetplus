@@ -4,10 +4,9 @@
 
 <div align="center">
 
-   :page_facing_up: [Paper](https://link.springer.com/article/10.1007/s10044-024-01270-3) &nbsp; | &nbsp; [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]() 
+  [![DOI](https://zenodo.org/badge/DOI/10.1007/s10044-024-01270-3.svg)](https://link.springer.com/article/10.1007/s10044-024-01270-3) &nbsp; | &nbsp; [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]() 
 
 </div>
-
 
 
 
@@ -122,10 +121,19 @@ Install the necessary dependencies to obtain the Pose maps from the images (in c
 
 ###  :black_small_square: Download and unzipping the Preprocessed Datasets ZIP
 
-To use the pre-processed datasets, you must first download and unzip the files. You can use the following command:
+To use the pre-processed datasets, you must first download and unzip the files. 
 
-    unzip dataset_proxemics.zip 
-    unzip dataset_pisc.zip 
+- Proxemics and PISC datasets available at [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.11184513.svg)](https://doi.org/10.5281/zenodo.11184513)
+
+- You can also use the following command:
+  
+      # Proxemcis dataset  (112MB)
+      wget -O dataset_proxemics.zip "https://zenodo.org/records/11184513/files/dataset_proxemics.zip?download=1"
+      unzip dataset_proxemics.zip
+  
+      # PISC dataset (3.76GB)
+      wget -O dataset_pisc.zip "https://zenodo.org/records/11184513/files/dataset_pisc.zip?download=1"
+      unzip dataset_pisc.zip 
 
 
 ###  :black_small_square: Downloading the pre-trained ConvNeXt models
@@ -188,9 +196,9 @@ Be sure to adjust the values between <...> with the specific paths and configura
 Here are 2 of the best Proxemics-Net++ models we have trained.
 
    - ### Proxemics dataset
-      * A model with ConvNeXt Base as the backbone. This model has given the best results (see Table 1 - SOTA). It has been trained with RGB and Pose information of individuals and pairs (Full model - 6 branches). In addition, it uses the CrossAttention fusion. [Download here]() (4.45GB)
+      * A model with ConvNeXt Base as the backbone. This model has given the best results (see Table 1 - SOTA). It has been trained with RGB and Pose information of individuals and pairs (Full model - 6 branches). In addition, it uses the CrossAttention fusion. [Download here](https://zenodo.org/records/11184513/files/model_Proxemics_RGB_p0p1pair_base_Pose_pop1pair_base_cross.zip?download=1) (4.01GB)
    - ### PISC dataset
-      * A model with ConvNeXt Base as the backbone. This model has given the best results (see Table 2 - SOTA). It has been trained with RGB information of individuals and pairs (Full model - 3 branches). In addition, it uses Concatenation fusion. [Download here](https://ucordoba-my.sharepoint.com/:u:/g/personal/i72jivem_uco_es/EeXBJyE-2DRKkHBqkWLFe4EBC3s69F8cnMvQQFmAVwjNug?e=CkpVKK) (1.13GB)
+      * A model with ConvNeXt Base as the backbone. This model has given the best results (see Table 2 - SOTA). It has been trained with RGB information of individuals and pairs (Full model - 3 branches). In addition, it uses Concatenation fusion. [Download here](https://zenodo.org/records/11184513/files/model_PISC_RGB_p0p1pair_base_concat.zip?download=1) (1.48GB)
 
    
    :star_struck: **You can test these models in the Google Colab Demo we have prepared for you.** [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]() 
