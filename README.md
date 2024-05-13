@@ -192,7 +192,7 @@ Here are 2 of the best Proxemics-Net++ models we have trained.
    - ### Proxemics dataset
       * A model with ConvNeXt Base as the backbone. This model has given the best results (see Table 1 - SOTA). It has been trained with RGB and Pose information of individuals and pairs (Full model - 6 branches). In addition, it uses the CrossAttention fusion. [Download here]() (4.45GB)
    - ### PISC dataset
-      * A model with ConvNeXt Base as the backbone. This model has given the best results (see Table 2 - SOTA). It has been trained with RGB information of individuals and pairs (Full model - 3 branches). In addition, it uses Concatenation fusion. [Download here]() (1.13GB)
+      * A model with ConvNeXt Base as the backbone. This model has given the best results (see Table 2 - SOTA). It has been trained with RGB information of individuals and pairs (Full model - 3 branches). In addition, it uses Concatenation fusion. [Download here](https://ucordoba-my.sharepoint.com/:u:/g/personal/i72jivem_uco_es/EeXBJyE-2DRKkHBqkWLFe4EBC3s69F8cnMvQQFmAVwjNug?e=CkpVKK) (1.13GB)
 
    
    :star_struck: **You can test these models in the Google Colab Demo we have prepared for you.** [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]() 
