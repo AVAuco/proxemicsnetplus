@@ -4,7 +4,7 @@
 
 <div align="center">
 
-   :page_facing_up: [Paper](https://link.springer.com/article/10.1007/s10044-024-01270-3) &nbsp; | &nbsp; [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1ueD8UFvWvFYK-MFL-GO3gteqIAXaM2LT?usp=sharing) 
+   :page_facing_up: [Paper](https://link.springer.com/article/10.1007/s10044-024-01270-3) &nbsp; | &nbsp; [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]() 
 
 </div>
 
@@ -91,6 +91,113 @@ Notably, most other methods rely on graph-based architectures, unlike ours, whic
 &nbsp;
 
 ---
+
+
+&nbsp;
+## :rocket: What's new?
+
+- `base_model_main/`: Main directory for the base model.
+- `dataset/`: Directory containing the code necessary for dataset preprocessing - RGB and Pose.
+- `ìmgs/`: Directory containing the some images of this work
+- `base_model_main/`: Main directory for the full model - RGB / Pose / RGB+Pose models.
+- `test/`: Directory containing code and resources related to model testing.
+- `train/`: Directory containing code and resources related to model training.
+- `dataset_proxemics.zip`: ZIP file containing the preprocessed Proxemics dataset - RGB and Pose.
+- `dataset_pisc.zip`: ZIP file containing the preprocessed PISC dataset - RGB and Pose.
+- `requirements_proxemicsNet.txt`: File specifying the necessary dependencies for the project.
+- `requirements_retinaFace_detectron_densepose.txt`: File specifying the necessary dependencies to obtain the pose maps of the images - Using RetinaFace and DensePose
+
+&nbsp;
+
+
+## :star2: Quick Start
+###  :black_small_square: Installing Dependencies
+
+Install the necessary dependencies to run this project, you can use the following command:
+
+    conda create --name <env> --file requirements_proxemicsNet.txt
+
+Install the necessary dependencies to obtain the Pose maps from the images (in case of not using the datasets already provided or using new images):
+
+    conda create --name <env> --file requirements_retinaFace_detectron_densepose.txt
+
+
+###  :black_small_square: Unzipping the Preprocessed Datasets ZIP
+
+To use the pre-processed datasets, you must first unzip the files. You can use the following command:
+
+    unzip dataset_proxemics.zip 
+    unzip dataset_pisc.zip 
+
+
+###  :black_small_square: Downloading the pre-trained ConvNeXt models
+
+To use the pre-trained ConvNeXt models that we have selected as a backbone to train our Proxemics-Net++ models, you need to download them from the following locations:
+
+- Pre-trained Base model: [Download here](https://dl.fbaipublicfiles.com/convnext/convnext_base_22k_224.pth) (350MB)
+- Pre-trained Large model: [Download here](https://dl.fbaipublicfiles.com/convnext/convnext_large_22k_224.pth) (800MB)
+
+Once downloaded, you need to unzip them and place them one level above, i.e., in ../premodels/.
+
+&nbsp;
+## :star2: Training a New Model - RGB / Pose / RGB+Pose
+
+To train and test a new model (Proxemcis or PISC), you should access the `rgb_pose_model_main` directory and execute the following command lines depending on the type of model you want to train:
+- #### For RGB models 
+  * Full Model (3 Branches)
+      
+         python3 rgb_pose_model_main_convNext.py --datasetDIR <DIR dataset/> --outModelsDIR <DIR where you'll save the model> --modeltype <base/large> --b <batchsize> --set <set1/set2> --lr <learningRate> --datasetName <proxemics/pisc> --rgb
+
+  * Only Pair RGB
+ 
+         python3 rgb_pose_model_main_convNext.py --datasetDIR <DIR dataset/> --outModelsDIR <DIR where you'll save the model> --modeltype <base/large> --b <batchsize> --set <set1/set2> --lr <learningRate> --datasetName <proxemics/pisc> --rgb --onlyPairRGB
+
+- #### For Pose models 
+
+  * Full Model (3 Branches)
+ 
+         python3 rgb_pose_model_main_convNext.py --datasetDIR <DIR dataset/> --outModelsDIR <DIR where you'll save the model> --modeltype <base/large> --b <batchsize> --set <set1/set2> --lr <learningRate> --datasetName <proxemics/pisc>  --pose
+
+  * Only Pair RGB
+
+         python3 rgb_pose_model_main_convNext.py --datasetDIR <DIR dataset/> --outModelsDIR <DIR where you'll save the model> --modeltype <base/large> --b <batchsize> --set <set1/set2> --lr <learningRate> --datasetName <proxemics/pisc>  --pose --onlyPairPose
+
+- #### For RGB+Pose models 
+
+  * Full Model (6 Branches)
+ 
+         python3 rgb_pose_model_main_convNext.py --datasetDIR <DIR dataset/> --outModelsDIR <DIR where you'll save the model> --modeltype <base/large> --b <batchsize> --set <set1/set2> --lr <learningRate> --datasetName <proxemics/pisc>  --rgb --pose  
+
+  * RGB+Pose (Only Pair RGB)
+
+         python3 rgb_pose_model_main_convNext.py --datasetDIR <DIR dataset/> --outModelsDIR <DIR where you'll save the model> --modeltype <base/large> --b <batchsize> --set <set1/set2> --lr <learningRate> --datasetName <proxemics/pisc>  --rgb --pose --onlyPairRGB
+
+  * RGB+Pose (Only Pair Pose)
+
+         python3 rgb_pose_model_main_convNext.py --datasetDIR <DIR dataset/> --outModelsDIR <DIR where you'll save the model> --modeltype <base/large> --b <batchsize> --set <set1/set2> --lr <learningRate> --datasetName <proxemics/pisc>  --rgb --pose --onlyPairPose
+
+  * RGB+Pose (Only Pair RGB + Only Pair Pose)
+
+         python3 rgb_pose_model_main_convNext.py --datasetDIR <DIR dataset/> --outModelsDIR <DIR where you'll save the model> --modeltype <base/large> --b <batchsize> --set <set1/set2> --lr <learningRate> --datasetName <proxemics/pisc>  --rgb --pose --onlyPairRGB --onlyPairPose
+
+
+Be sure to adjust the values between <...> with the specific paths and configurations required for your project.
+
+**Note:** The model is trained with Concatenation Fusion by default. To use CrossAttention, just add **`—-crossAttention`** to your command line.
+
+&nbsp;
+## :star2: Inference - Download the best Proxemics-Net++ model we have trained for each dataset.
+Here are 2 of the best Proxemics-Net++ models we have trained.
+
+   - ### Proxemics dataset
+      * A model with ConvNeXt Base as the backbone. This model has given the best results (see Table 1 - SOTA). It has been trained with RGB and Pose information of individuals and pairs (Full model - 6 branches). In addition, it uses the CrossAttention fusion. [Download here]() (4.45GB)
+   - ### PISC dataset
+      * A model with ConvNeXt Base as the backbone. This model has given the best results (see Table 2 - SOTA). It has been trained with RGB information of individuals and pairs (Full model - 3 branches). In addition, it uses Concatenation fusion. [Download here]() (1.13GB)
+
+   
+   :star_struck: **You can test these models in the Google Colab Demo we have prepared for you.** [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]() 
+
+&nbsp;
 
 ## :memo: Citing Proxemics-Net
 If you find Proxemics-Net++ useful in your work, please consider citing the following BibTeX entry:
