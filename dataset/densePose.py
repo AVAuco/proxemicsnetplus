@@ -12,6 +12,8 @@ import torch, detectron2
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+import argparse
+import os
 
 # Función que reescala una imagen a 224x224 y le añade padding de filas o columnas negras
 def resizeImage(img):
@@ -168,165 +170,179 @@ def recorte(img):
     return img
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='Retina_Detectron_detections script.')
+
+    #PATHS
+    parser.add_argument('--pairBBsPath',type=str,  help='Path to the JSON file obtained by retinaFace and detectron.', required=True)
+    parser.add_argument('--pkl_file',type=str,  help='Path to the PKL file obtained by DensePose', required=True)
+    parser.add_argument('--outputPath',type=str,  help='Dir where preprocesed images (Pose maps) will be saved', required=True)
+
+    return parser.parse_args()
+
 ################################################## START OF THE CODE ##################################################
-#JSON generated after running retinaFace and detectron
-import json
-jsonfile='/opt/data/isajim/experiments/proxemics/output/pair_BBs.json'
-with open(jsonfile) as file:
-    BBs = json.load(file)
-# Open pkl file
-f = open('/opt/data/isajim/experiments/proxemics/release_recortes.pkl', 'rb')
-print(f)
-data = torch.load(f)
+if __name__ == '__main__':
+
+  #Parameters read from console
+  args = parse_args()
+    
+  #JSON generated after running retinaFace and detectron
+  import json
+  jsonfile=args.pairBBsPath
+  with open(jsonfile) as file:
+      BBs = json.load(file)
+  # Open pkl file
+  f = open(args.pkl_file, 'rb')
+  print(f)
+  data = torch.load(f)
 
 
-# path where the pose maps will be stored
-outpath='/opt/data/isajim/experiments/proxemics/output/densePose/'
+  # path where the pose maps will be stored
+  outpath=args.outputPath
+  os.makedirs(outpath, exist_ok=True)
 
-
-# 3. We processed the images
-print('n images',len(data))
-for idx in range(0,6):
-  # 3.2. Name image to be processed
-  img_data=data[idx]
-  imgname=img_data['file_name']
-  img_original=cv2.imread(imgname)
-  h_image,w_image,c_image=img_original.shape
-  imgname=imgname.split('/')[-1]
-  print(imgname)
-  # 3.1. Final map of each image (three channels - RGB)
-  #Get how many people are in that image (the keys are p0, p1, p2...) so, the final imgFinal will consist of n_img - one per person.  
-  imgKeys=BBs[imgname].keys()
-  all_p_BBs=[]
-  for key in imgKeys:
-    if '-' not in key:    #We do not want to know the number of pairs (p0-p1) - so we discard them.
-      all_p_BBs.append(key)
-      
-  n_img=len(all_p_BBs)
-  imgFinal = np.zeros((n_img,h_image,w_image,3))
-  imgaux = np.zeros((h_image,w_image,3))
-
-  #We extract the BBs of each person in the image that were previously obtained with the retinaface (y0,y1,x0,x1).  
-  BBslist=[]
-  for p_BB in all_p_BBs:
-      BB=BBs[imgname][p_BB]
-      y0=BB[0]
-      y1=BB[1]
-      x0=BB[2]
-      x1=BB[3]
-      BBslist.append((x0,y0,x1,y1))
-
-  print(BBslist)
-  ########################  we generated the first version of the pose maps of the individuals ########################
-  # 3.4. For each thing detected in the image we are processing (n_detections), we will obtain the I maps of their BBs and place them in the image
-  # Pintamos en cada imagen de la persona correspondiente(p_idx) la detección encontrada de densepose.
-  # Para ello, sacamos el BBs que devuelve densepose de esa detección - bbstarget
-  # Luego comparamos ese bb con todos los posibles candidatos que hay (uno por persona en la imagen) y que hemos obtenido anteriormente del json (detectron) y guardado een el bbslist
-  # La funcion find_max_iou_idx es la que nos devuelve el id del bb del candidato que más contenga al bbtarget ( es decir, nos devuelve la persona)
-  # Posterormente pintamos las imagenes como en la celda anterior pero centrándonos en imagen de la persona en concreto - imgFinal[p_idx][rows][cols]
-  n_detections=len(img_data['pred_boxes_XYXY'])
-
-  for person_idx in range(0,n_detections):
-    # 3.4.1. We check if the idx of the image is within the images with specific thresholds.
-    score_thr=0
-    # 3.4.2. We check if the score of the detection we are analyzing exceeds the established threshold
-    score=img_data['scores'][person_idx]
-    if score >= score_thr:
-      # We take the coordinates of the bbs
-      box=np.array(img_data['pred_boxes_XYXY'][person_idx])
-      xmin=box[0]
-      ymin=box[1]
-      xmax=box[2]
-      ymax=box[3]
-      BBstarget=(xmin,ymin,xmax,ymax)
-
-      #print(BBsConcrete)
-      p_idx=find_max_iou_idx(BBslist,BBstarget)
-      if p_idx == -1:
-         continue
-      # Transform the map with I from detection to cpu and numpy
-      img=img_data['pred_densepose'][person_idx].labels.cpu().numpy()
-
-      printPersonImg(img,imgFinal,imgaux,p_idx,xmin,xmax,ymin,ymax)
-
-  ######################## we clean up noise - we refine estimates ########################
-  #Como a veces las detecciones de densepose cogen dentro de una persona a la otra persona, reprocesamos las imagenes para quitar de la imagen a las personas que no correspondan.
-  #Cómo? Supongamos que la imagen p0 está bien pero la imgen p1 tiene a la persona 1 pero además un poquito de la persona 0. Pues hay que restarle a la imagen p1, la imagen p0.
-  # Primero contamos el numero de 0 que tiene cada imagen de personas y comparamos por parejas. De la pareja, la persona con menor número de 0 es la que más pintura tiene y por tanto  a la que se le va a restar la otra persona.
-  # De esta manera, si restamos y sale negativo, pues se deja a 0 ya que significa que ahí no había nada y por el contrario, si el resultado de la resta no está entre los valores permitidos por canal(0,85,...255) se deja tambien a 0 - substract2img
-  p_zeros_list=[]
-  for i in imgFinal:
-
-    #  Counts the number of pixels with value 0 in each colour channel
-    r_zeros = np.count_nonzero(i[:,:,0] == 0)
-    g_zeros = np.count_nonzero(i[:,:,1] == 0)
-    b_zeros = np.count_nonzero(i[:,:,2] == 0)
-
-    p_zeros=r_zeros+g_zeros+b_zeros
-    p_zeros_list.append(p_zeros)
-
-  n_total_zeros_perImage=h_image*w_image*c_image
-  if n_total_zeros_perImage in p_zeros_list :    #That number means that the 3 channels of 224x224 are set to 0(224x224x3)
-    imgFinal = np.zeros((n_img,h_image,w_image,3))
-    for p_idx in range(0,n_img):
-      # We take the coordinates of the bbs
-      box=BBslist[p_idx]  #(x,y,h,w)
-      xmin=box[0]
-      ymin=box[1]
-      xmax=xmin + box[3]
-      ymax=ymin + box[2]
-      print(xmin,xmax,ymin,ymax)
-      for c in range(0,3):
-        for rows in range(int(ymin), int(ymax)-1):
-            for cols in range(int(xmin),int(xmax)-1):
-                imgFinal[p_idx][rows][cols][c]=imgaux[rows][cols][c]
-  else:
-    for i in range(0,len(imgFinal)-1):
-      for j in range(i+1,len(imgFinal)):
-        if p_zeros_list[i]<p_zeros_list[j]:
-          imgFinal[i]=subtract2img(imgFinal[i],imgFinal[j])
-        else:
-          imgFinal[j]=subtract2img(imgFinal[j],imgFinal[i])
-
-  # We start generating each of the maps knowing what the BBs really are and refining the detections.
-  cont=0
-  for i in imgFinal:
-    print('persona ', cont)
-    name=outpath + 'pose_'+ imgname[:-4] + '_p' + str(cont) + '.jpg'
-    imgperson = np.zeros((224,224,3))
-    imgperson=recorte(i)
-
-    figure=plt.figure(figsize=(2.24,2.24))
-    plt.axis('off')
-    plt.imshow(imgperson.astype('uint8'))
-    plt.show()
-    #3.6. Save final image
-    figure.savefig(name)
-    plt.close(figure)
-    cont=cont+1
-  if n_img==2:
-    name=outpath + 'pose_'+ imgname[:-4] + '_pair_p0-p1.jpg'
-    #print('pair p0-p1')
-    imgperson = np.zeros((224,224,3))
-    imgperson=recorte(imgaux)
-    figure=plt.figure(figsize=(2.24,2.24))
-    plt.axis('off')
-    plt.imshow(imgperson.astype('uint8'))
-    plt.show()
-    figure.savefig(name)
-    plt.close(figure)
-  else:
-    for i in range(0,len(imgFinal)-1):
-      for j in range(i+1,len(imgFinal)):
-        imgaux =  np.zeros((h_image,w_image,3))
-        imgperson = np.zeros((224,224,3))
-        imgaux=add2img(imgFinal[i],imgFinal[j])
+  # 3. We processed the images
+  for idx in range(0,len(data)):
+    # 3.2. Name image to be processed
+    img_data=data[idx]
+    imgname=img_data['file_name']
+    img_original=cv2.imread(imgname)
+    h_image,w_image,c_image=img_original.shape
+    imgname=imgname.split('/')[-1]
+    print(' > ', imgname)
+    # 3.1. Final map of each image (three channels - RGB)
+    #Get how many people are in that image (the keys are p0, p1, p2...) so, the final imgFinal will consist of n_img - one per person.  
+    imgKeys=BBs[imgname].keys()
+    all_p_BBs=[]
+    for key in imgKeys:
+      if '-' not in key:    #We do not want to know the number of pairs (p0-p1) - so we discard them.
+        all_p_BBs.append(key)
         
-        name=outpath + 'pose_'+ imgname[:-4] + '_pair_p'+str(i)+'-p'+str(j)+'.jpg'
-        imgperson=recorte(imgaux)
-        figure=plt.figure(figsize=(2.24,2.24))
-        plt.axis('off')
-        plt.imshow(imgperson.astype('uint8'))
-        plt.show()
-        figure.savefig(name)
-        plt.close(figure)
+    n_img=len(all_p_BBs)
+    imgFinal = np.zeros((n_img,h_image,w_image,3))
+    imgaux = np.zeros((h_image,w_image,3))
+
+    #We extract the BBs of each person in the image that were previously obtained with the retinaface (y0,y1,x0,x1).  
+    BBslist=[]
+    for p_BB in all_p_BBs:
+        BB=BBs[imgname][p_BB]
+        y0=BB[0]
+        y1=BB[1]
+        x0=BB[2]
+        x1=BB[3]
+        BBslist.append((x0,y0,x1,y1))
+
+    print(BBslist)
+    ########################  we generated the first version of the pose maps of the individuals ########################
+    # 3.4. For each thing detected in the image we are processing (n_detections), we will obtain the I maps of their BBs and place them in the image
+    # Pintamos en cada imagen de la persona correspondiente(p_idx) la detección encontrada de densepose.
+    # Para ello, sacamos el BBs que devuelve densepose de esa detección - bbstarget
+    # Luego comparamos ese bb con todos los posibles candidatos que hay (uno por persona en la imagen) y que hemos obtenido anteriormente del json (detectron) y guardado een el bbslist
+    # La funcion find_max_iou_idx es la que nos devuelve el id del bb del candidato que más contenga al bbtarget ( es decir, nos devuelve la persona)
+    # Posterormente pintamos las imagenes como en la celda anterior pero centrándonos en imagen de la persona en concreto - imgFinal[p_idx][rows][cols]
+    n_detections=len(img_data['pred_boxes_XYXY'])
+
+    for person_idx in range(0,n_detections):
+      # 3.4.1. We check if the idx of the image is within the images with specific thresholds.
+      score_thr=0
+      # 3.4.2. We check if the score of the detection we are analyzing exceeds the established threshold
+      score=img_data['scores'][person_idx]
+      if score >= score_thr:
+        # We take the coordinates of the bbs
+        box=np.array(img_data['pred_boxes_XYXY'][person_idx])
+        xmin=box[0]
+        ymin=box[1]
+        xmax=box[2]
+        ymax=box[3]
+        BBstarget=(xmin,ymin,xmax,ymax)
+
+        #print(BBsConcrete)
+        p_idx=find_max_iou_idx(BBslist,BBstarget)
+        if p_idx == -1:
+          continue
+        # Transform the map with I from detection to cpu and numpy
+        img=img_data['pred_densepose'][person_idx].labels.cpu().numpy()
+
+        printPersonImg(img,imgFinal,imgaux,p_idx,xmin,xmax,ymin,ymax)
+
+    ######################## we clean up noise - we refine estimates ########################
+    #Como a veces las detecciones de densepose cogen dentro de una persona a la otra persona, reprocesamos las imagenes para quitar de la imagen a las personas que no correspondan.
+    #Cómo? Supongamos que la imagen p0 está bien pero la imgen p1 tiene a la persona 1 pero además un poquito de la persona 0. Pues hay que restarle a la imagen p1, la imagen p0.
+    # Primero contamos el numero de 0 que tiene cada imagen de personas y comparamos por parejas. De la pareja, la persona con menor número de 0 es la que más pintura tiene y por tanto  a la que se le va a restar la otra persona.
+    # De esta manera, si restamos y sale negativo, pues se deja a 0 ya que significa que ahí no había nada y por el contrario, si el resultado de la resta no está entre los valores permitidos por canal(0,85,...255) se deja tambien a 0 - substract2img
+    p_zeros_list=[]
+    for i in imgFinal:
+
+      #  Counts the number of pixels with value 0 in each colour channel
+      r_zeros = np.count_nonzero(i[:,:,0] == 0)
+      g_zeros = np.count_nonzero(i[:,:,1] == 0)
+      b_zeros = np.count_nonzero(i[:,:,2] == 0)
+
+      p_zeros=r_zeros+g_zeros+b_zeros
+      p_zeros_list.append(p_zeros)
+
+    n_total_zeros_perImage=h_image*w_image*c_image
+    if n_total_zeros_perImage in p_zeros_list :    #That number means that the 3 channels of 224x224 are set to 0(224x224x3)
+      imgFinal = np.zeros((n_img,h_image,w_image,3))
+      for p_idx in range(0,n_img):
+        # We take the coordinates of the bbs
+        box=BBslist[p_idx]  #(x,y,h,w)
+        xmin=box[0]
+        ymin=box[1]
+        xmax=xmin + box[3]
+        ymax=ymin + box[2]
+        print(xmin,xmax,ymin,ymax)
+        for c in range(0,3):
+          for rows in range(int(ymin), int(ymax)-1):
+              for cols in range(int(xmin),int(xmax)-1):
+                  imgFinal[p_idx][rows][cols][c]=imgaux[rows][cols][c]
+    else:
+      for i in range(0,len(imgFinal)-1):
+        for j in range(i+1,len(imgFinal)):
+          if p_zeros_list[i]<p_zeros_list[j]:
+            imgFinal[i]=subtract2img(imgFinal[i],imgFinal[j])
+          else:
+            imgFinal[j]=subtract2img(imgFinal[j],imgFinal[i])
+
+    # We start generating each of the maps knowing what the BBs really are and refining the detections.
+    cont=0
+    for i in imgFinal:
+      print('persona ', cont)
+      name=outpath + 'pose_'+ imgname[:-4] + '_p' + str(cont) + '.jpg'
+      imgperson = np.zeros((224,224,3))
+      imgperson=recorte(i)
+
+      figure=plt.figure(figsize=(2.24,2.24))
+      plt.axis('off')
+      plt.imshow(imgperson.astype('uint8'))
+      plt.show()
+      #3.6. Save final image
+      figure.savefig(name)
+      plt.close(figure)
+      cont=cont+1
+    if n_img==2:
+      name=outpath + 'pose_'+ imgname[:-4] + '_pair_p0-p1.jpg'
+      #print('pair p0-p1')
+      imgperson = np.zeros((224,224,3))
+      imgperson=recorte(imgaux)
+      figure=plt.figure(figsize=(2.24,2.24))
+      plt.axis('off')
+      plt.imshow(imgperson.astype('uint8'))
+      plt.show()
+      figure.savefig(name)
+      plt.close(figure)
+    else:
+      for i in range(0,len(imgFinal)-1):
+        for j in range(i+1,len(imgFinal)):
+          imgaux =  np.zeros((h_image,w_image,3))
+          imgperson = np.zeros((224,224,3))
+          imgaux=add2img(imgFinal[i],imgFinal[j])
+          
+          name=outpath + 'pose_'+ imgname[:-4] + '_pair_p'+str(i)+'-p'+str(j)+'.jpg'
+          imgperson=recorte(imgaux)
+          figure=plt.figure(figsize=(2.24,2.24))
+          plt.axis('off')
+          plt.imshow(imgperson.astype('uint8'))
+          plt.show()
+          figure.savefig(name)
+          plt.close(figure)
