@@ -346,7 +346,7 @@ if __name__ == '__main__':
       # Get model
       #model_path = "gs://tfhub-modules/sayakpaul/convnext_base_21k_1k_224/1/uncompressed"
       if modeltype == "base":
-        model_path="/opt/data/isajim/experiments/proxemics/premodels/convnext_base_21k_1k_224_fe_1/"
+        model_path="../../premodels/convnext_base_21k_1k_224_fe_1/"
       elif modeltype == "large":
         model_path="../../premodels/convnext_large_21k_1k_224_1/"
       elif modeltype == "xlarge":
