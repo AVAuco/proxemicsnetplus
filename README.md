@@ -119,7 +119,7 @@ Install the necessary dependencies to obtain the Pose maps from the images (in c
     conda create --name <env> --file requirements_retinaFace_detectron_densepose.txt
 
 
-###  :black_small_square: Download and unzipping the Preprocessed Datasets ZIP
+###  :black_small_square: Downloading and unzipping the Preprocessed Datasets ZIP
 
 To use the pre-processed datasets, you must first download and unzip the files. 
 
