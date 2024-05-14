@@ -4,7 +4,7 @@
 
 <div align="center">
 
-  [![DOI](https://zenodo.org/badge/DOI/10.1007/s10044-024-01270-3.svg)](https://link.springer.com/article/10.1007/s10044-024-01270-3) &nbsp; | &nbsp; [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]() 
+  [![DOI](https://zenodo.org/badge/DOI/10.1007/s10044-024-01270-3.svg)](https://link.springer.com/article/10.1007/s10044-024-01270-3) &nbsp; | &nbsp; [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/19W3z7wbAOlmOQ6eZjYSCS7MSOQGwAvrz?usp=sharing) 
 
 </div>
 
@@ -201,7 +201,7 @@ Here are 2 of the best Proxemics-Net++ models we have trained.
       * A model with ConvNeXt Base as the backbone. This model has given the best results (see Table 2 - SOTA). It has been trained with RGB information of individuals and pairs (Full model - 3 branches). In addition, it uses Concatenation fusion. [Download here](https://zenodo.org/records/11184513/files/model_PISC_RGB_p0p1pair_base_concat.zip?download=1) (1.48GB)
 
    
-   :star_struck: **You can test these models in the Google Colab Demo we have prepared for you.** [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)]() 
+   :star_struck: **You can test these models in the Google Colab Demo we have prepared for you.** [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/19W3z7wbAOlmOQ6eZjYSCS7MSOQGwAvrz?usp=sharing) 
 
 &nbsp;
 
