@@ -1,6 +1,7 @@
 ######################################################
 #CODE TO OBTAIN RGB POSE MAPS FROM DENSEPOSE ESTIMATES
-#Densepose returns a pkl file with estimates for each image received. 
+#1. Install pip install git+https://github.com/facebookresearch/detectron2@main#subdirectory=projects/DensePose
+# 2. Densepose returns a pkl file with estimates for each image received. 
 #To get this pkl you have to install the densepose GitHub project and apply its code apply_net.py to your images.
 #cd /opt/data/isajim/experiments/proxemics/detectron2/projects/DensePose/
 #python apply_net.py dump configs/densepose_rcnn_R_50_FPN_s1x.yaml https://dl.fbaipublicfiles.com/densepose/densepose_rcnn_R_50_FPN_s1x/165712039/model_final_162be9.pkl  /opt/data/isajim/experiments/proxemics/input/"*jpg" --output /opt/data/isajim/experiments/proxemics/release_recortes.pkl -v
