@@ -1,6 +1,10 @@
 
 # Proxemics-net++: classification of human interactions in still images
 
+### 📚 Support Code for Proxemics-Net++ Method
+
+Developed by **Isabel Jiménez-Velasco**, **Jorge Zafra-Palma**, **Rafael Muñoz-Salinas** and **Manuel J. Marín-Jiménez**.
+
 
 <div align="center">
 
@@ -209,7 +213,7 @@ Here are 2 of the best Proxemics-Net++ models we have trained.
 If you find Proxemics-Net++ useful in your work, please consider citing the following BibTeX entry:
 ```bibtex
 @article{Jimenez2024,
-  author    = {I. Jiménez-Velasco and J. Zafra-Palma and R. Muñoz-Salinas and M.J. Jiménez-Marín},
+  author    = {Jiménez, I. and Zafra, J. and Muñoz, R. and Marín, M. J.},
   title     = {Proxemics-net++: classification of human interactions in still images},
   journal   = {Pattern Analysis and Applications},
   volume    = {27},
