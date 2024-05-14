@@ -209,7 +209,7 @@ Here are 2 of the best Proxemics-Net++ models we have trained.
 If you find Proxemics-Net++ useful in your work, please consider citing the following BibTeX entry:
 ```bibtex
 @article{Jimenez2024,
-  author    = {I. Jiménez-Velasco and J. Zafra-Palma and R. Muñoz-Salinas and others},
+  author    = {I. Jiménez-Velasco and J. Zafra-Palma and R. Muñoz-Salinas and M.J. Jiménez-Marín},
   title     = {Proxemics-net++: classification of human interactions in still images},
   journal   = {Pattern Analysis and Applications},
   volume    = {27},
