@@ -15,7 +15,7 @@ print("CUDA Available:", torch.cuda.is_available())
 print("Torch version:", torch.__version__)
 print("Torch version:", torchvision.__version__)
 print("CUDA version:", torch.version.cuda)
-#print("Detectron2 version:", detectron2.__version__)
+print("Detectron2 version:", detectron2.__version__)
 
 from detectron2.utils.logger import setup_logger
 setup_logger()
